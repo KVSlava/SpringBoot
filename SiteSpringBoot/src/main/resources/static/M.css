@@ -1,0 +1,49 @@
+body {
+    animation: rainbow4 2s infinite;
+}
+H1{
+    font-size: 32px;
+    animation: rainbow1 1s infinite;
+}
+p{
+     font-size: 26px;
+     animation: rainbow2 1s infinite;
+ }
+pre
+{
+    font-size: 26px;
+    animation: rainbow3 1s infinite;
+}
+@keyframes rainbow1 {
+0% { color: #191970; }
+20% { color: #FF4500; }
+40% { color: #ADFF2F; }
+60% { color : #FFFAFA;}
+80% {color: #FFFF00}
+100% { color: #191970; }
+}
+@keyframes rainbow2 {
+0% {color: #FFFF00}
+20% { color: #191970; }
+40% { color: #FF4500; }
+60% { color: #ADFF2F; }
+80% { color : #FFFAFA;}
+100% {color: #FFFF00}
+}
+@keyframes rainbow3 {
+0% { color : #FFFAFA;}
+20% {color: #FFFF00}
+40% { color: #191970; }
+60% { color: #FF4500; }
+80% { color: #ADFF2F; }
+100% { color : #FFFAFA;}
+}
+@keyframes rainbow4 {
+0% { background: #ADFF2F; }
+20% { background : #FFFAFA;}
+40% {background: #FFFF00}
+60% { background: #191970; }
+80% { background: #FF4500; }
+100% { background: #ADFF2F; }
+
+}

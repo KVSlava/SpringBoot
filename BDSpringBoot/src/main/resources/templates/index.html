@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>HTTP-запросы</title>
+    <style>
+        .container { max-width: 600px; margin: 50px auto; padding: 20px; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"] { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        button { padding: 10px 20px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; }
+        .get { background-color: #4CAF50; color: white; }
+        .post { background-color: #2196F3; color: white; }
+        .put { background-color: #FF9800; color: white; }
+        .delete { background-color: #f44336; color: white; }
+        .result { margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-left: 4px solid #007bff; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>HTTP-запросы к API</h1>
+
+    <div class="input-group">
+        <label for="url">URL:</label>
+        <input type="text" id="url" name="url" value="http://localhost:8082/planets">
+    </div>
+
+    <div class="input-group">
+        <label for="data">Данные (JSON):</label>
+        <input type="text" id="data" name="data" value='{"Id": 1, "planetRadius": 2439, "planetName" : "Mercury"}'>
+    </div>
+
+    <div>
+        <button type="button" class="get" onclick="sendRequest('GET')">GET</button>
+        <button type="button" class="post" onclick="sendRequest('POST')">POST</button>
+        <button type="button" class="put" onclick="sendRequest('PUT')">PUT</button>
+        <button type="button" class="delete" onclick="sendRequest('DELETE')">DELETE</button>
+    </div>
+
+    <div id="result" class="result" style="display: none;"></div>
+</div>
+
+<script>
+    async function sendRequest(method) {
+        const url = document.getElementById('url').value;
+        const dataInput = document.getElementById('data');
+        const resultDiv = document.getElementById('result');
+
+        let requestData = null;
+        if (dataInput.value && (method === 'POST' || method === 'PUT')) {
+            try {
+                requestData = JSON.parse(dataInput.value);
+            } catch (e) {
+                alert('Неверный формат JSON в поле данных!');
+                return;
+            }
+        }
+
+        try {
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: requestData ? JSON.stringify(requestData) : null
+            });
+
+            const responseData = await response.text();
+            resultDiv.innerHTML = `
+                <strong>Статус:</strong> ${response.status} ${response.statusText}<br>
+                <strong>Ответ:</strong> <pre>${JSON.stringify(JSON.parse(responseData), null, 2)}</pre>
+            `;
+            resultDiv.style.display = 'block';
+        } catch (error) {
+            resultDiv.innerHTML = `<strong>Ошибка:</strong> ${error.message}`;
+            resultDiv.style.display = 'block';
+        }
+    }
+</script>
+</body>
+</html>
